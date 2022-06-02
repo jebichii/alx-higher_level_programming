@@ -1,24 +1,32 @@
 #!/usr/bin/python3
+
+from sys import argv, exit as sys_exit
+
+from calculator_1 import add, sub, mul, div
+
+
 if __name__ == "__main__":
-    from calculator_1 import add, sub, mul, div
-    import sys
 
-    num_args = len(sys.argv)
-    if num_args != 4:
+    ops = {"+": add, "-": sub, "*": mul, "/": div}
+
+    try:
+        a, op, b = argv[1:]
+
+    except ValueError:
         print("Usage: ./100-my_calculator.py <a> <operator> <b>")
-        exit(1)
-    a = int(sys.argv[1])
-    op = sys.argv[2]
-    b = int(sys.argv[3])
+        sys_exit(1)
 
-    if op is '+':
-        print("{} {} {} = {}".format(a, op, b, add(a, b)))
-    elif op is '-':
-        print("{} {} {} = {}".format(a, op, b, sub(a, b)))
-    elif op is '*':
-        print("{} {} {} = {}".format(a, op, b, mul(a, b)))
-    elif op is '/':
-        print("{} {} {} = {}".format(a, op, b, div(a, b)))
-    else:
+    try:
+        print(a, op, b, "=", ops[op](int(a), int(b)))
+
+    except KeyError:
         print("Unknown operator. Available operators: +, -, * and /")
-        exit(1)
+        sys_exit(1)
+
+    except ValueError:
+        print("Invalid operand. Must be an integer")
+        sys_exit(1)
+
+    except ZeroDivisionError:
+        print("Invalid operation. Cannot divide by zero")
+        sys_exit(1)
