@@ -1,1 +1,1 @@
-classes
+Javascript objectt scopes closure
